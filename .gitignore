@@ -1,0 +1,14 @@
+.env
+.env.production
+*.db
+app
+config/certs
+.idea/*
+tmp/
+.DS_Store
+.next/
+next-env.d.ts
+node_modules/
+out/
+*.log
+.idea/
