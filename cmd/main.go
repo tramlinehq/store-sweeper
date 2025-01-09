@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	config.Load()
 	log.Init()
+	config.Load()
 	web.Run()
 }
