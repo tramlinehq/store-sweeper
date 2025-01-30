@@ -15,7 +15,7 @@ func Run() {
 	r := gin.Default()
 
 	r.GET("/search", mw.SetEnv(), mw.ApiAuthMiddleware(), handlers.HandleSearch)
-	// r.GET("/tsearch", handlers.HandleSearch)
+	r.GET("/tsearch", handlers.HandleSearch)
 
 	// var err error
 	// if config.C.AppEnv != "production" {
