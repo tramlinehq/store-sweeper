@@ -8,3 +8,14 @@
 - [ ] implement endpoint
 - [ ] add unit tests
 - [ ] add logging
+
+
+### Deploying
+
+```
+gcloud run deploy store-sweeper \
+    --image gcr.io/decoded-theme-355014/store-sweeper \
+    --platform managed \
+    --region europe-west3 \
+    --allow-unauthenticated
+```
