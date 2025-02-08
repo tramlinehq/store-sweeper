@@ -70,9 +70,13 @@ func SearchAppStore(options SearchOptions) ([]AppStoreSearchResult, error) {
 		return nil, fmt.Errorf("failed to parse response: %v", err)
 	}
 
+	if len(parsedResponse.Bubbles) == 0 {
+		return nil, fmt.Errorf("no results found for search term: %s", options.SearchTerm)
+	}
+
 	results := parsedResponse.Bubbles[0].Results
 	if len(results) == 0 {
-		return nil, nil
+		return nil, fmt.Errorf("no results found for search term: %s", options.SearchTerm)
 	}
 
 	ids := make([]string, options.NumCount)
@@ -118,8 +122,6 @@ func lookupAppStoreById(ids []string) ([]AppStoreSearchResult, error) {
 		return nil, fmt.Errorf("failed to parse lookup response: %v", err)
 	}
 
-	fmt.Println(parsedLookupResponse.Results)
-
 	return utils.Map(parsedLookupResponse.Results, convertToSearchResult), nil
 }
 
@@ -133,5 +135,6 @@ func convertToSearchResult(data AppData) AppStoreSearchResult {
 		Rating:        data.AverageUserRating,
 		IconURL:       data.ArtworkURL100,
 		Description:   data.Description,
+		Country:       data.Country,
 	}
 }

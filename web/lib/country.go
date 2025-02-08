@@ -37,7 +37,7 @@ var countryCodes = map[string]CountryCode{
 func GetCountryCode(countryStr string) CountryCode {
 	countryStrUpper := strings.ToUpper(countryStr)
 	if _, ok := countryCodes[countryStrUpper]; !ok {
-		return 0
+		return countryCodes["US"] // Set default country code to US
 	}
 	return countryCodes[countryStrUpper]
 }

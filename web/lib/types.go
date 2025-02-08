@@ -16,6 +16,7 @@ type AppData struct {
 	AverageUserRating float64 `json:"averageUserRating"`
 	ArtworkURL100     string  `json:"artworkUrl100"`
 	Description       string  `json:"description"`
+	Country           string  `json:"country"`
 }
 
 type AppStoreSearchResult struct {
@@ -27,4 +28,5 @@ type AppStoreSearchResult struct {
 	Rating        float64 `json:"averageRating,omitempty"`
 	IconURL       string  `json:"iconUrl,omitempty"`
 	Description   string  `json:"description,omitempty"`
+	Country       string  `json:"country,omitempty"`
 }
