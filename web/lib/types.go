@@ -1,13 +1,13 @@
 package lib
 
-type SearchOptions struct {
+type AppStoreSearchOptions struct {
 	SearchTerm string
 	NumCount   int
 	Country    CountryCode
 	Language   string
 }
 
-type AppData struct {
+type AppStoreAppData struct {
 	TrackID           int64   `json:"trackId"`
 	TrackName         string  `json:"trackName"`
 	BundleID          string  `json:"bundleId"`

@@ -7,13 +7,44 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"strconv"
 	"strings"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/tramlinehq/store-sweeper/utils"
 )
 
-func SearchAppStore(options SearchOptions) ([]AppStoreSearchResult, error) {
+func ConstructAppStoreSearchOptions(ctx *gin.Context) (*AppStoreSearchOptions, error) {
+	searchTerm := ctx.Query("searchTerm")
+
+	if searchTerm == "" {
+		return nil, errors.New("searchTerm query parameter is required")
+	}
+
+	country := ctx.DefaultQuery("country", "us")
+
+	numCount, err := strconv.Atoi(ctx.DefaultQuery("resultCount", "10"))
+
+	if err != nil {
+		return nil, errors.New("resultCount query parameter must be an integer")
+	}
+
+	lang := ctx.DefaultQuery("lang", "en-us")
+
+	return &AppStoreSearchOptions{
+		SearchTerm: searchTerm,
+		NumCount:   numCount,
+		Country:    GetCountryCode(country),
+		Language:   lang,
+	}, nil
+}
+
+func SearchAppStore(options *AppStoreSearchOptions) ([]AppStoreSearchResult, error) {
+	if options == nil {
+		return nil, errors.New("failed to perform search on app store - unknown error")
+	}
+
 	if options.SearchTerm == "" {
 		return nil, errors.New("searchTerm parameter is required")
 	}
@@ -114,7 +145,7 @@ func lookupAppStoreById(ids []string) ([]AppStoreSearchResult, error) {
 	}
 
 	var parsedLookupResponse struct {
-		Results []AppData `json:"results"`
+		Results []AppStoreAppData `json:"results"`
 	}
 
 	err = json.Unmarshal(body, &parsedLookupResponse)
@@ -125,7 +156,7 @@ func lookupAppStoreById(ids []string) ([]AppStoreSearchResult, error) {
 	return utils.Map(parsedLookupResponse.Results, convertToSearchResult), nil
 }
 
-func convertToSearchResult(data AppData) AppStoreSearchResult {
+func convertToSearchResult(data AppStoreAppData) AppStoreSearchResult {
 	return AppStoreSearchResult{
 		ID:            data.TrackID,
 		Name:          data.TrackName,
