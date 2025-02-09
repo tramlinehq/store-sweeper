@@ -1,11 +1,12 @@
 import express from "express";
 import cors from "cors";
 
-import searchHandler from "./handlers/search.ts";
-import healthzHandler from "./handlers/healthz.ts";
-import requestLogger from "./log/request.ts";
-import errorLogger from "./log/error.ts";
-import notFoundHandler from "./handlers/notFound.ts";
+import searchHandler from "./handlers/search.js";
+import healthzHandler from "./handlers/healthz.js";
+import notFoundHandler from "./handlers/notFound.js";
+
+import requestLogger from "./log/request.js";
+import errorLogger from "./log/error.js";
 
 const app = express();
 const port = process.env.PORT ?? 3000;
