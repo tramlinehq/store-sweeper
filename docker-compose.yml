@@ -1,0 +1,35 @@
+services:
+  play-store-api:
+    build:
+      context: ./play-store
+      dockerfile: Dockerfile
+    container_name: play-store-api
+    ports:
+      - "7001:3000"
+    networks:
+      - store-sweeper-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: go-app
+    ports:
+      - "8000:8081"
+    depends_on:
+      play-store-api:
+        condition: service_healthy
+    networks:
+      - store-sweeper-network
+    environment:
+      - PLAY_STORE_API_URL=http://play-store-api:3000
+
+networks:
+  store-sweeper-network:
+    driver: bridge
