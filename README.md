@@ -2,9 +2,9 @@
 
 ### task list for api server
 
-- [x] set up docker compose for local testing
 - [x] decide response structure for `/search` endpoint
 - [x] implement endpoint across both app store and play store
+- [x] set up docker compose for local testing
 - [x] add logging (request and error)
 - [ ] add unit tests
 
