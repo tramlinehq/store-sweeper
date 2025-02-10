@@ -21,7 +21,7 @@ services:
       dockerfile: Dockerfile
     container_name: go-app
     ports:
-      - "8000:8081"
+      - "8081:8081"
     depends_on:
       play-store-api:
         condition: service_healthy
@@ -29,6 +29,12 @@ services:
       - store-sweeper-network
     environment:
       - PLAY_STORE_API_URL=http://play-store-api:3000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
 networks:
   store-sweeper-network:
