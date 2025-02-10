@@ -25,6 +25,9 @@ COPY --from=builder /app/config ./config
 RUN adduser -D sweeperUser
 USER sweeperUser
 
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:8081/healthz || exit 1
+
 EXPOSE 8081
 
 CMD ["./main"]
