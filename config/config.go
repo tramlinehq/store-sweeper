@@ -14,8 +14,11 @@ type AuthConfig struct {
 }
 
 type AppConfig struct {
-	AppEnv     string
-	AuthConfig AuthConfig
+	AppEnv          string
+	AuthConfig      AuthConfig
+	PlayStoreAPIUrl string
+	AuthCertfile    string
+	AuthPublicKey   string
 }
 
 var C *AppConfig
@@ -34,6 +37,9 @@ func Load() {
 			Issuer:   getEnv("AUTH_ISSUER", ""),
 			Audience: getEnv("AUTH_AUDIENCE", ""),
 		},
+		PlayStoreAPIUrl: getEnv("PLAY_STORE_API_URL", "http://play-store-api:3000"),
+		AuthCertfile:    getEnv("AUTH_CERT_FILE", ""),
+		AuthPublicKey:   getEnv("AUTH_PUBLIC_KEY", ""),
 	}
 }
 

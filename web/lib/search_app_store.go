@@ -40,30 +40,12 @@ func ConstructAppStoreSearchOptions(ctx *gin.Context) (*AppStoreSearchOptions, e
 	}, nil
 }
 
-func SearchAppStore(options *AppStoreSearchOptions) ([]AppStoreSearchResult, error) {
+func SearchAppStore(options *AppStoreSearchOptions) ([]SearchResult, error) {
 	if options == nil {
 		return nil, errors.New("failed to perform search on app store - unknown error")
 	}
 
-	if options.SearchTerm == "" {
-		return nil, errors.New("searchTerm parameter is required")
-	}
-
-	if options.NumCount <= 0 {
-		return nil, errors.New("numCount parameter must be greater than zero")
-	}
-
-	country := options.Country
-	if country == 0 {
-		country = countryCodes["US"]
-	}
-
-	language := options.Language
-	if language == "" {
-		language = "en-us"
-	}
-
-	searchURL := fmt.Sprintf("%s%s", BASE_SEARCH_URL, url.QueryEscape(options.SearchTerm))
+	searchURL := fmt.Sprintf("%s%s", APP_STORE_BASE_SEARCH_URL, url.QueryEscape(options.SearchTerm))
 
 	req, err := http.NewRequest(http.MethodGet, searchURL, nil)
 	if err != nil {
@@ -71,8 +53,8 @@ func SearchAppStore(options *AppStoreSearchOptions) ([]AppStoreSearchResult, err
 	}
 
 	// Set headers
-	req.Header.Set("X-Apple-Store-Front", fmt.Sprintf("%d,24 t:native", country))
-	req.Header.Set("Accept-Language", language)
+	req.Header.Set("X-Apple-Store-Front", fmt.Sprintf("%d,24 t:native", options.Country))
+	req.Header.Set("Accept-Language", options.Language)
 
 	client := &http.Client{
 		Timeout: 2 * time.Second,
@@ -122,8 +104,8 @@ func SearchAppStore(options *AppStoreSearchOptions) ([]AppStoreSearchResult, err
 	return lookupAppStoreById(ids)
 }
 
-func lookupAppStoreById(ids []string) ([]AppStoreSearchResult, error) {
-	lookupURL := LOOKUP_APP_ID_URL + strings.Join(ids, ",")
+func lookupAppStoreById(ids []string) ([]SearchResult, error) {
+	lookupURL := APP_STORE_LOOKUP_APP_ID_URL + strings.Join(ids, ",")
 
 	req, err := http.NewRequest(http.MethodGet, lookupURL, nil)
 	if err != nil {
@@ -153,11 +135,11 @@ func lookupAppStoreById(ids []string) ([]AppStoreSearchResult, error) {
 		return nil, fmt.Errorf("failed to parse lookup response: %v", err)
 	}
 
-	return utils.Map(parsedLookupResponse.Results, convertToSearchResult), nil
+	return utils.Map(parsedLookupResponse.Results, convertToAppStoreAppDataToSearchResult), nil
 }
 
-func convertToSearchResult(data AppStoreAppData) AppStoreSearchResult {
-	return AppStoreSearchResult{
+func convertToAppStoreAppDataToSearchResult(data AppStoreAppData) SearchResult {
+	return SearchResult{
 		ID:            data.TrackID,
 		Name:          data.TrackName,
 		BundleID:      data.BundleID,
