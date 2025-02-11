@@ -1,17 +1,25 @@
 package log
 
-import "go.uber.org/zap"
+import (
+	"time"
 
-var logger *zap.SugaredLogger
+	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
+)
+
+var logger *zap.Logger
 
 func Init() {
-	plainLogger, err := zap.NewDevelopment()
+	config := zap.NewProductionConfig()
+	config.EncoderConfig.TimeKey = "timestamp"
+	config.EncoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
 
+	var err error
+	logger, err = config.Build()
 	if err != nil {
 		panic(err)
 	}
-
-	logger = plainLogger.Sugar()
 }
 
 func SyncLogs() error {
@@ -23,18 +31,50 @@ func SyncLogs() error {
 	return nil
 }
 
-func Fatalf(msg string, rest ...interface{}) {
-	logger.Fatalf(msg, rest...)
+func RequestLogger() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		start := time.Now()
+		path := c.Request.URL.Path
+		query := c.Request.URL.RawQuery
+
+		c.Next()
+
+		duration := time.Since(start)
+
+		logger.Info("request",
+			zap.Int("status", c.Writer.Status()),
+			zap.String("method", c.Request.Method),
+			zap.String("path", path),
+			zap.String("query", query),
+			zap.Duration("duration", duration),
+			zap.String("ip", c.ClientIP()),
+			zap.String("user-agent", c.Request.UserAgent()),
+		)
+	}
 }
 
-func Errorw(msg string, rest ...interface{}) {
-	logger.Errorw(msg, rest...)
+func ErrorLogger(err error, context string, fields ...zapcore.Field) {
+	if err == nil {
+		return
+	}
+
+	fields = append(fields, zap.Error(err))
+
+	logger.Error(context, fields...)
 }
 
-func Errorf(msg string, rest ...interface{}) {
-	logger.Errorf(msg, rest...)
+func Fatalf(message string, rest ...interface{}) {
+	logger.Sugar().Fatalf(message, rest...)
 }
 
-func Infow(msg string, rest ...interface{}) {
-	logger.Infow(msg, rest...)
+func Errorf(message string, rest ...interface{}) {
+	logger.Sugar().Errorf(message, rest...)
+}
+
+func Errorw(message string, rest ...interface{}) {
+	logger.Sugar().Errorw(message, rest...)
+}
+
+func Infow(message string, rest ...interface{}) {
+	logger.Sugar().Infow(message, rest...)
 }
