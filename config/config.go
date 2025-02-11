@@ -49,3 +49,7 @@ func getEnv(key, defaultValue string) string {
 	}
 	return defaultValue
 }
+
+func (C *AppConfig) IsProduction() bool {
+	return C.AppEnv == "production"
+}
