@@ -1,10 +1,13 @@
 package handlers
 
 import (
+	err "errors"
 	"fmt"
 
 	"github.com/gin-gonic/gin"
+	"github.com/tramlinehq/store-sweeper/log"
 	"github.com/tramlinehq/store-sweeper/web/lib"
+	"go.uber.org/zap"
 	"golang.org/x/sync/errgroup"
 )
 
@@ -63,9 +66,13 @@ func HandleSearch(ctx *gin.Context) {
 	if len(errors) > 0 {
 		response["errors"] = errors
 		if len(errors) == 2 {
+			for _, e := range errors {
+				log.ErrorLogger(err.New(e), "scraping request failed", zap.String("error", e))
+			}
 			ctx.JSON(500, response)
 			return
 		}
+		log.ErrorLogger(err.New(errors[0]), "scraping request partially failed", zap.String("error", errors[0]))
 		ctx.JSON(206, response)
 		return
 	}

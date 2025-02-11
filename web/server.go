@@ -13,15 +13,21 @@ const (
 )
 
 func Run() {
+	if config.C.IsProduction() {
+		gin.SetMode(gin.ReleaseMode)
+	}
+
 	r := gin.Default()
+	r.Use(log.RequestLogger())
+	r.Use(gin.Recovery())
 
 	r.GET("/search", mw.SetEnv(), mw.ApiAuthMiddleware(), handlers.HandleSearch)
-	// r.GET("/tsearch", handlers.HandleSearch)
+	r.GET("/tsearch", handlers.HandleSearch)
 	r.GET("/healthz", handlers.HandleHealthz)
 
 	var err error
 
-	if config.C.AppEnv != "production" {
+	if !config.C.IsProduction() {
 		err = r.Run(appPort)
 	} else {
 		err = r.RunTLS(appPort, config.C.AuthCertfile, config.C.AuthPublicKey)
