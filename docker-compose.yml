@@ -29,6 +29,7 @@ services:
       - store-sweeper-network
     environment:
       - PLAY_STORE_API_URL=http://play-store-api:3000
+      - ENV=docker-compose
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8081/healthz"]
       interval: 30s
