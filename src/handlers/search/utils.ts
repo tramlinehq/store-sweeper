@@ -1,4 +1,4 @@
-import { COUNTRY_CODES } from "./constants.js";
+import { COUNTRY_CODES } from "./constants";
 import {
   AppStoreAppData,
   AppStoreLangCode,

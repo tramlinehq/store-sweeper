@@ -1,12 +1,9 @@
 import { RequestHandler, Request } from "express";
 
-import { SearchQueryParams } from "./types.js";
-import { constructAppStoreSearchOptions, searchAppStore } from "./appStore.js";
-import {
-  constructPlayStoreSearchOptions,
-  searchPlayStore,
-} from "./playStore.js";
-import { sortAndFilterResults } from "./utils.js";
+import { SearchQueryParams } from "./types";
+import { constructAppStoreSearchOptions, searchAppStore } from "./appStore";
+import { constructPlayStoreSearchOptions, searchPlayStore } from "./playStore";
+import { sortAndFilterResults } from "./utils";
 
 const searchHandler: RequestHandler = async (
   req: Request<any, any, any, SearchQueryParams, any>,
@@ -39,12 +36,12 @@ const searchHandler: RequestHandler = async (
       },
     });
   } catch (error) {
-    if (error) {
-      next({
-        status: 500,
+    if (error instanceof Error) {
+      res.status(500).json({
         message: "Failed to search apps",
-        error: error instanceof Error ? error.message : String(error),
+        error: error instanceof Error ? error.message : JSON.stringify(error),
       });
+      next(error);
     }
   }
 };

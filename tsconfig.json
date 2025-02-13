@@ -1,23 +1,17 @@
 {
+  "extends": "@tsconfig/node20/tsconfig.json",
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "NodeNext",
-    "moduleResolution": "nodenext",
-    "esModuleInterop": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "useUnknownInCatchVariables": true,
     "outDir": "./dist",
+    "sourceMap": true,
+    "noImplicitAny": true,
     "rootDir": "./src",
-    "allowJs": true,
-    "noEmit": false,
-    "moduleDetection": "force"
+    "moduleResolution": "bundler",
+    "module": "es2015"
   },
   "ts-node": {
     "esm": true,
     "experimentalSpecifierResolution": "node"
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }

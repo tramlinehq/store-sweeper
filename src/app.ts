@@ -1,18 +1,13 @@
 import express from "express";
 import cors from "cors";
 
-import {
-  searchHandler,
-  healthzHandler,
-  notFoundHandler,
-} from "./handlers/index.js";
-import { requestLogger, errorLogger } from "./log/index.js";
+import { searchHandler, healthzHandler, notFoundHandler } from "./handlers";
+import { requestLogger, errorLogger } from "./log";
 
 const app = express();
 const port = process.env.PORT ?? 3000;
 
 app.use(cors());
-app.use(express.json());
 
 app.use(requestLogger); // NOTE: middleware for logging requests
 

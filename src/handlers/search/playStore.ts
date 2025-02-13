@@ -1,7 +1,6 @@
 import * as gplayDefault from "google-play-scraper";
 import { Request } from "express";
 
-import { Logger } from "../../log/index.js";
 import {
   CountryCharCode,
   PlayStoreAppData,
@@ -9,8 +8,8 @@ import {
   PriceOption,
   SearchQueryParams,
   SearchResult,
-} from "./types.js";
-import { convertPlayStoreAppDataToSearchResult } from "./utils.js";
+} from "./types";
+import { convertPlayStoreAppDataToSearchResult } from "./utils";
 
 const gplay = (gplayDefault as any).default as any;
 
@@ -64,10 +63,6 @@ export const searchPlayStore = async (
     )) as PlayStoreAppData[];
     return searchResults.map(convertPlayStoreAppDataToSearchResult);
   } catch (error) {
-    Logger.error("Failed to search App Store", {
-      error,
-      searchTerm: playStoreOptions.term,
-    });
     throw error;
   }
 };

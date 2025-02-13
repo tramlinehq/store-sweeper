@@ -1,6 +1,6 @@
 import expressWinston from "express-winston";
 import winston from "winston";
-import loggerFormat from "./format.js";
+import loggerFormat from "./format";
 
 const requestLogger = expressWinston.logger({
   transports: [new winston.transports.Console()],

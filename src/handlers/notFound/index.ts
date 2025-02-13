@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { SUPPORTED_ROUTES } from "./constants.js";
+import { SUPPORTED_ROUTES } from "./constants";
 
 const notFoundHandler: RequestHandler = (req, res) => {
   res.status(404).json({

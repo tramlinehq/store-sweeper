@@ -4,14 +4,13 @@ import {
   APP_STORE_LOOKUP_APP_ID_URL,
   REQUEST_TIMEOUT,
   APP_STORE_BASE_SEARCH_URL,
-} from "./constants.js";
-import { SearchQueryParams, AppStoreOptions, SearchResult } from "./types.js";
+} from "./constants";
+import { SearchQueryParams, AppStoreOptions, SearchResult } from "./types";
 import {
   getLangForAppStore,
   getCountryCode,
   convertAppStoreAppDataToSearchResult,
-} from "./utils.js";
-import { Logger } from "../../log/index.js";
+} from "./utils";
 
 export const constructAppStoreSearchOptions = (
   req: Request<any, any, any, SearchQueryParams, any>
@@ -52,10 +51,9 @@ const lookupAppStoreById = async (ids: string[]): Promise<SearchResult[]> => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data = await response.json();
+    const data = (await response.json()) as any;
     return data.results.map(convertAppStoreAppDataToSearchResult);
   } catch (error) {
-    Logger.error("Failed to lookup App Store apps", { error });
     throw error;
   }
 };
@@ -87,7 +85,7 @@ export const searchAppStore = async (
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data = await response.json();
+    const data = (await response.json()) as any;
     const results = data.bubbles?.[0]?.results;
 
     if (!results?.length) {
@@ -102,10 +100,6 @@ export const searchAppStore = async (
 
     return await lookupAppStoreById(ids);
   } catch (error) {
-    Logger.error("Failed to search App Store", {
-      error,
-      searchTerm: options.searchTerm,
-    });
     throw error;
   }
 };

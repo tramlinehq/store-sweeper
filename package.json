@@ -1,13 +1,12 @@
 {
   "name": "store-sweeper",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "type": "module",
+  "description": "an api to help search for apps on both the play-store and app-store",
+  "main": "app.cjs",
   "scripts": {
-    "build": "rm -rf ./dist && tsc",
-    "start": "ts-node --esm src/app.ts",
-    "dev": "nodemon"
+    "build": "rm -rf ./dist && esbuild --bundle src/app.ts --outdir=dist --minify --sourcemap --platform=node --format=cjs && mv dist/app.js dist/app.cjs",
+    "dev": "nodemon",
+    "test": "echo 'No Command Found' && exit 1"
   },
   "keywords": [],
   "author": "Sameer Kolhar <sameer@tramline.app>",
@@ -20,10 +19,11 @@
     "winston": "3.17.0"
   },
   "devDependencies": {
+    "@tsconfig/node20": "20.1.4",
     "@types/cors": "2.8.17",
     "@types/express": "5.0.0",
+    "esbuild": "0.25.0",
     "nodemon": "3.1.9",
-    "ts-node": "10.9.2",
     "typescript": "5.7.3"
   }
 }
