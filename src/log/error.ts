@@ -1,6 +1,6 @@
 import expressWinston from "express-winston";
 import winston from "winston";
-import { LoggerMeta } from "./format";
+import { LoggerMeta } from "./format.js";
 
 const errorLogger = expressWinston.errorLogger({
   transports: [new winston.transports.Console()],

@@ -4,14 +4,14 @@ import {
   APP_STORE_LOOKUP_APP_ID_URL,
   REQUEST_TIMEOUT,
   APP_STORE_BASE_SEARCH_URL,
-} from "./constants";
-import { SearchQueryParams, AppStoreOptions, SearchResult } from "./types";
+} from "./constants.js";
+import { SearchQueryParams, AppStoreOptions, SearchResult } from "./types.js";
 import {
   getLangForAppStore,
   getCountryCode,
   convertAppStoreAppDataToSearchResult,
-} from "./utils";
-import { Logger } from "../../log";
+} from "./utils.js";
+import { Logger } from "../../log/index.js";
 
 export const constructAppStoreSearchOptions = (
   req: Request<any, any, any, SearchQueryParams, any>

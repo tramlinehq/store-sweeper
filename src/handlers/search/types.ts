@@ -1,4 +1,4 @@
-import { COUNTRY_CODES } from "./constants";
+import { COUNTRY_CODES } from "./constants.js";
 
 interface SearchQueryParams {
   searchTerm?: string;

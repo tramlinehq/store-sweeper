@@ -1,11 +1,11 @@
-import { COUNTRY_CODES } from "./constants";
+import { COUNTRY_CODES } from "./constants.js";
 import {
   AppStoreAppData,
   AppStoreLangCode,
   CountryCharCode,
   PlayStoreAppData,
   SearchResult,
-} from "./types";
+} from "./types.js";
 
 export const getCountryCode = (countryStr: string) => {
   const countryStrUpper = countryStr.toUpperCase();

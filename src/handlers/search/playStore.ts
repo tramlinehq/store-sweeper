@@ -1,7 +1,7 @@
 import * as gplayDefault from "google-play-scraper";
 import { Request } from "express";
 
-import { Logger } from "../../log";
+import { Logger } from "../../log/index.js";
 import {
   CountryCharCode,
   PlayStoreAppData,
@@ -9,8 +9,8 @@ import {
   PriceOption,
   SearchQueryParams,
   SearchResult,
-} from "./types";
-import { convertPlayStoreAppDataToSearchResult } from "./utils";
+} from "./types.js";
+import { convertPlayStoreAppDataToSearchResult } from "./utils.js";
 
 const gplay = (gplayDefault as any).default as any;
 

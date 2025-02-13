@@ -1,9 +1,12 @@
 import { RequestHandler, Request } from "express";
 
-import { SearchQueryParams } from "./types";
-import { constructAppStoreSearchOptions, searchAppStore } from "./appStore";
-import { constructPlayStoreSearchOptions, searchPlayStore } from "./playStore";
-import { sortAndFilterResults } from "./utils";
+import { SearchQueryParams } from "./types.js";
+import { constructAppStoreSearchOptions, searchAppStore } from "./appStore.js";
+import {
+  constructPlayStoreSearchOptions,
+  searchPlayStore,
+} from "./playStore.js";
+import { sortAndFilterResults } from "./utils.js";
 
 const searchHandler: RequestHandler = async (
   req: Request<any, any, any, SearchQueryParams, any>,
