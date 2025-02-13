@@ -1,0 +1,19 @@
+services:
+  store-sweeper-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "7001:3000"
+    networks:
+      - store-sweeper-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  store-sweeper-network:
+    driver: bridge
