@@ -8,6 +8,13 @@
 - [x] add logging (request and error)
 - [ ] add unit tests
 
+### Local Dev
+
+```sh
+$ docker compose up --build
+```
+
+Connect on http://localhost:7001 with the API. `/search` and `/healthz` are the endpoints that are available now.
 
 ### Deploying
 
