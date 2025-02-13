@@ -1,33 +1,34 @@
-FROM golang:1.23-alpine AS builder
+FROM node:18-alpine AS builder
 
-RUN apk add --no-cache git make build-base
-
-WORKDIR /app
-
-COPY go.mod go.sum ./
-
-RUN go mod download -x || (go env && go mod download -v && exit 1)
-
-COPY . .
-
-RUN touch .env
-
-RUN CGO_ENABLED=0 GOOS=linux go build -o main ./cmd/main.go
-
-FROM alpine:latest
+RUN apk add --no-cache curl
 
 WORKDIR /app
 
-COPY --from=builder /app/main .
-COPY --from=builder /app/.env .
-COPY --from=builder /app/config ./config
+COPY package*.json ./
+COPY tsconfig.json ./
 
-RUN adduser -D sweeperUser
-USER sweeperUser
+RUN npm ci
+
+COPY src ./src
+COPY nodemon.json ./
+
+RUN npm run build
+
+FROM node:18-alpine
+
+WORKDIR /app
+
+RUN apk add --no-cache curl
+
+COPY package*.json ./
+RUN npm ci --only=production
+
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/nodemon.json ./
+
+EXPOSE 3000
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-    CMD curl -f http://localhost:8081/healthz || exit 1
+    CMD curl -f http://localhost:3000/healthz || exit 1
 
-EXPOSE 8081
-
-CMD ["./main"]
+CMD ["node", "dist/app.js"]
