@@ -1,0 +1,44 @@
+name: Deploy to Cloud Run
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: "read"
+      id-token: "write"
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - id: "auth"
+        name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v1"
+        with:
+          workload_identity_provider: "projects/${{ secrets.PROJECT_NUMBER }}/locations/global/workloadIdentityPools/github-pool/providers/github-provider"
+          service_account: "github-actions@${{ secrets.PROJECT_ID }}.iam.gserviceaccount.com"
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+
+      - name: Configure Docker
+        run: gcloud auth configure-docker
+
+      - name: Build and Push Docker image
+        run: |
+          docker build -t gcr.io/${{ secrets.PROJECT_ID }}/store-sweeper:${{ github.sha }} .
+          docker push gcr.io/${{ secrets.PROJECT_ID }}/store-sweeper:${{ github.sha }}
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy store-sweeper \
+            --image gcr.io/${{ secrets.PROJECT_ID }}/store-sweeper:${{ github.sha }} \
+            --platform managed \
+            --region europe-west3 \
+            --project ${{ secrets.PROJECT_ID }} \
+            --allow-unauthenticated
