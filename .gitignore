@@ -14,3 +14,4 @@ out/
 .idea/
 response.json
 **/dist
+!vendor/
