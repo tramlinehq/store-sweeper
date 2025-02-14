@@ -6,9 +6,8 @@
   "scripts": {
     "build": "rm -rf ./dist && esbuild --bundle src/app.ts --outdir=dist --minify --sourcemap --platform=node --format=cjs && mv dist/app.js dist/app.cjs",
     "dev": "nodemon",
-    "test": "echo 'No Command Found' && exit 1"
+    "test": "jest"
   },
-  "keywords": [],
   "author": "Sameer Kolhar <sameer@tramline.app>",
   "license": "ISC",
   "dependencies": {
@@ -24,9 +23,12 @@
     "@tsconfig/node20": "20.1.4",
     "@types/cors": "2.8.17",
     "@types/express": "5.0.0",
+    "@types/jest": "29.5.14",
     "@types/jsonwebtoken": "9.0.8",
     "esbuild": "0.25.0",
+    "jest": "29.7.0",
     "nodemon": "3.1.9",
+    "ts-jest": "29.2.5",
     "typescript": "5.7.3"
   }
 }
