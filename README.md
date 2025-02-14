@@ -14,7 +14,7 @@
 $ docker compose up --build
 ```
 
-Connect on http://localhost:7001 with the API. `/search` and `/healthz` are the endpoints that are available now.
+Connect on http://localhost:8081 with the API. `/search` (with auth middleware), `/tsearch` (without auth middleware) and `/healthz` are the endpoints that are available now.
 
 ### Deploying
 
