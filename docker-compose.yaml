@@ -4,11 +4,14 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "7001:3000"
+      - "8081:8081"
     networks:
       - store-sweeper-network
+    environment:
+      - ENV=docker
+      - PORT=8081
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/healthz"]
+      test: ["CMD", "curl", "-f", "http://localhost:8081/healthz"]
       interval: 30s
       timeout: 10s
       retries: 3

@@ -26,9 +26,11 @@ RUN npm ci --only=production
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/nodemon.json ./
 
-EXPOSE 3000
+RUN touch .env
+
+EXPOSE 8081
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-    CMD curl -f http://localhost:3000/healthz || exit 1
+    CMD curl -f http://localhost:8081/healthz || exit 1
 
-CMD ["node", "dist/app.js"]
+CMD ["node", "dist/app.cjs"]
