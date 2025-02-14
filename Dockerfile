@@ -4,7 +4,8 @@ RUN apk add --no-cache curl
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json npm-shrinkwrap.json ./
+COPY vendor ./vendor
 COPY tsconfig.json ./
 
 RUN npm ci
@@ -20,7 +21,9 @@ WORKDIR /app
 
 RUN apk add --no-cache curl
 
-COPY package*.json ./
+COPY package.json npm-shrinkwrap.json ./
+COPY vendor ./vendor
+COPY tsconfig.json ./
 RUN npm ci --only=production
 
 COPY --from=builder /app/dist ./dist
