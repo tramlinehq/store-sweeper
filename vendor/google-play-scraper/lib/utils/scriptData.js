@@ -1,24 +1,24 @@
-import createDebug from "debug";
-import * as R from "ramda";
+import createDebug from 'debug';
+import * as R from 'ramda';
 
-const debug = createDebug("google-play-scraper:scriptData");
+const debug = createDebug('google-play-scraper:scriptData');
 
 /**
- * This method looks for the mapping inside the serviceRequestData object
- * The serviceRequestData object is mapped from the AF_dataServiceRequests html var
- *
- * @param {object} parsedData The response mapped object
- * @param {object} spec The mappings spec
- */
-function extractDataWithServiceRequestId(parsedData, spec) {
+* This method looks for the mapping inside the serviceRequestData object
+* The serviceRequestData object is mapped from the AF_dataServiceRequests html var
+*
+* @param {object} parsedData The response mapped object
+* @param {object} spec The mappings spec
+*/
+function extractDataWithServiceRequestId (parsedData, spec) {
   const serviceRequestMapping = Object.keys(parsedData.serviceRequestData);
-  const filteredDsRootPath = serviceRequestMapping.filter((serviceRequest) => {
+  const filteredDsRootPath = serviceRequestMapping.filter(serviceRequest => {
     const dsValues = parsedData.serviceRequestData[serviceRequest];
 
     return dsValues.id === spec.useServiceRequestId;
   });
 
-  const formattedPath = filteredDsRootPath.length
+  const formattedPath = (filteredDsRootPath.length)
     ? [filteredDsRootPath[0], ...spec.path]
     : spec.path;
 
@@ -26,16 +26,16 @@ function extractDataWithServiceRequestId(parsedData, spec) {
 }
 
 /**
- * Map the MAPPINGS object, applying each field spec to the parsed data.
- * If the mapping value is an array, use it as the path to the extract the
- * field's value. If it's an object, extract the value in object.path and pass
- * it to the function in object.fun
- *
- * @param {array} mappings The mappings object
- */
-function extractor(mappings) {
-  return function extractFields(parsedData) {
-    debug("parsedData: %o", parsedData);
+* Map the MAPPINGS object, applying each field spec to the parsed data.
+* If the mapping value is an array, use it as the path to the extract the
+* field's value. If it's an object, extract the value in object.path and pass
+* it to the function in object.fun
+*
+* @param {array} mappings The mappings object
+*/
+function extractor (mappings) {
+  return function extractFields (parsedData) {
+    debug('parsedData: %o', parsedData);
 
     return R.map((spec) => {
       if (R.is(Array, spec)) {
@@ -45,7 +45,7 @@ function extractor(mappings) {
       // extractDataWithServiceRequestId explanation:
       // https://github.com/facundoolano/google-play-scraper/pull/412
       // assume spec object
-      const input = spec.useServiceRequestId
+      const input = (spec.useServiceRequestId)
         ? extractDataWithServiceRequestId(parsedData, spec)
         : R.path(spec.path, parsedData);
 
@@ -58,7 +58,7 @@ function extractor(mappings) {
  * Extract the javascript objects returned by the AF_initDataCallback functions
  * in the script tags of the app detail HTML.
  */
-function parse(response) {
+function parse (response) {
   const scriptRegex = />AF_initDataCallback[\s\S]*?<\/script/g;
   const keyRegex = /(ds:.*?)'/;
   const valueRegex = /data:([\s\S]*?), sideChannel: {}}\);<\//;
@@ -81,18 +81,19 @@ function parse(response) {
     return accum;
   }, {});
 
-  return Object.assign({}, parsedData, {
-    serviceRequestData: parseServiceRequests(response),
-  });
+  return Object.assign(
+    {},
+    parsedData,
+    { serviceRequestData: parseServiceRequests(response) }
+  );
 }
 
 /*
  * Extract the javascript objects returned by the AF_dataServiceRequests function
  * in the script tags of the app detail HTML.
  */
-function parseServiceRequests(response) {
-  const scriptRegex =
-    /; var AF_dataServiceRequests[\s\S]*?; var AF_initDataChunkQueue/g;
+function parseServiceRequests (response) {
+  const scriptRegex = /; var AF_dataServiceRequests[\s\S]*?; var AF_initDataChunkQueue/g;
   const valueRegex = /{'ds:[\s\S]*}}/g;
 
   const matches = response.match(scriptRegex);
@@ -113,9 +114,4 @@ function parseServiceRequests(response) {
   return value;
 }
 
-export default Object.assign({
-  parse,
-  parseServiceRequests,
-  extractor,
-  extractDataWithServiceRequestId,
-});
+export default Object.assign({ parse, parseServiceRequests, extractor, extractDataWithServiceRequestId });

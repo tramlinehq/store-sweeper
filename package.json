@@ -15,9 +15,9 @@
     "dotenv": "16.4.7",
     "express": "4.21.2",
     "express-winston": "4.2.0",
-    "google-play-scraper": "file:vendor/google-play-scraper",
     "jsonwebtoken": "9.0.2",
-    "winston": "3.17.0"
+    "winston": "3.17.0",
+    "google-play-scraper": "file:vendor/google-play-scraper"
   },
   "devDependencies": {
     "@tsconfig/node20": "20.1.4",
