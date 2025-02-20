@@ -1,5 +1,9 @@
 # Store Sweeper
 
+[![Deploy to Cloud Run](https://github.com/tramlinehq/store-sweeper/actions/workflows/deploy.yml/badge.svg)](https://github.com/tramlinehq/store-sweeper/actions/workflows/deploy.yml)
+
+[![Tests](https://github.com/tramlinehq/store-sweeper/actions/workflows/test.yml/badge.svg)](https://github.com/tramlinehq/store-sweeper/actions/workflows/test.yml)
+
 A Node.js service that provides a unified API for searching both Apple App Store and Google Play Store.
 
 ## Features
