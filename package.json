@@ -6,7 +6,9 @@
   "scripts": {
     "build": "rm -rf ./dist && esbuild --bundle src/app.ts --outdir=dist --minify --sourcemap --platform=node --format=cjs && mv dist/app.js dist/app.cjs",
     "dev": "nodemon",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "author": "Sameer Kolhar <sameer@tramline.app>",
   "license": "ISC",
