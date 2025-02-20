@@ -15,3 +15,4 @@ out/
 response.json
 **/dist
 !vendor/
+coverage
