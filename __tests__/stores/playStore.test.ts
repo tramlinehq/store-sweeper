@@ -13,7 +13,7 @@ describe("Play Store", () => {
       mockReq = {
         query: {
           searchTerm: "test",
-          numCount: "20",
+          numCount: "50",
           lang: "en",
           country: "us",
         },
@@ -25,7 +25,7 @@ describe("Play Store", () => {
 
       expect(options).toEqual({
         term: "test",
-        num: 20,
+        num: 50,
         lang: "en",
         country: "us",
         fullDetail: false,

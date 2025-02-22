@@ -18,7 +18,7 @@ export const constructPlayStoreSearchOptions = (
 ): PlayStoreOptions => {
   const {
     searchTerm,
-    numCount = "20",
+    numCount = "50",
     lang = "en",
     country = "us",
   } = req.query;
@@ -28,7 +28,7 @@ export const constructPlayStoreSearchOptions = (
   }
 
   const validNumCount = Math.min(
-    Math.max(1, !Number.isNaN(parseInt(numCount)) ? Number(numCount) : 10),
+    Math.max(1, !Number.isNaN(parseInt(numCount)) ? Number(numCount) : 50),
     250
   );
 

@@ -27,7 +27,7 @@ describe("Search Handler", () => {
     mockReq = {
       query: {
         searchTerm: "test",
-        numCount: "10",
+        numCount: "50",
         lang: "en",
         country: "US",
       },
@@ -59,14 +59,14 @@ describe("Search Handler", () => {
 
     (appStore.constructAppStoreSearchOptions as jest.Mock).mockReturnValue({
       searchTerm: "test",
-      numCount: 10,
+      numCount: 50,
       country: 143441, // US code
       lang: "en-us",
     });
 
     (playStore.constructPlayStoreSearchOptions as jest.Mock).mockReturnValue({
       term: "test",
-      num: 10,
+      num: 50,
       lang: "en",
       country: "us",
       fullDetail: false,

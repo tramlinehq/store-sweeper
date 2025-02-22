@@ -21,7 +21,7 @@ export const constructAppStoreSearchOptions = (
 
   const searchTerm = req.query.searchTerm;
   const country = req.query.country || "us";
-  const numCount = parseInt(req.query.numCount || "10");
+  const numCount = parseInt(req.query.numCount || "50");
   const lang = getLangForAppStore(req.query.lang) || "en-us";
 
   if (Number.isNaN(numCount)) {

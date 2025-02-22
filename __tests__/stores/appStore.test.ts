@@ -9,7 +9,7 @@ describe("App Store", () => {
       mockReq = {
         query: {
           searchTerm: "test",
-          numCount: "10",
+          numCount: "50",
           country: "US",
           lang: "us",
         },
@@ -21,7 +21,7 @@ describe("App Store", () => {
 
       expect(options).toEqual({
         searchTerm: "test",
-        numCount: 10,
+        numCount: 50,
         country: 143441, // US country code
         lang: "en-us",
       });
