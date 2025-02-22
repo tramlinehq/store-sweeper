@@ -42,7 +42,7 @@ describe("Utils", () => {
     ] as any[];
 
     it("should sort results by rating and limit to specified number", () => {
-      const sorted = sortAndFilterResults(mockResults, [], 2);
+      const sorted = sortAndFilterResults("App", mockResults, [], 2);
       expect(sorted).toHaveLength(2);
       expect(sorted[0].averageRating).toBe(4.8);
       expect(sorted[1].averageRating).toBe(4.5);

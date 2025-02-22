@@ -20,6 +20,7 @@ const searchHandler: RequestHandler = async (
     ]);
 
     const results = sortAndFilterResults(
+      appStoreOptions.searchTerm,
       playStoreSearchResults,
       appStoreSearchResults,
       appStoreOptions.numCount
