@@ -15,13 +15,12 @@ A Node.js service that provides a unified API for searching both Apple App Store
 
 | Endpoint | Method | Query Parameters | Default Values | Description |
 |----------|---------|-----------------|----------------|-------------|
-| `/search` | GET | `searchTerm` (required)<br>`numCount`<br>`lang`<br>`country` | `numCount`: 50<br>`lang`: "en"<br>`country`: "us" | Searches both app stores and returns sorted results by rating |
+| `/search` | GET | `searchTerm` (required)<br>`numCount`<br>`lang`<br>`country` | `numCount`: 50 (range: 1 - 250) <br>`lang`: "en"<br>`country`: "us" | Searches both app stores and returns sorted results by rating |
 | `/healthz` | GET | None | None | Health check endpoint that returns OK status |
 
 Additional notes for `/search`:
 - Responds with both App Store and Play Store results combined
 - Results are sorted by rating in descending order
-- Play Store number limit: 1-250 results
 - For country codes, both stores support the ISO 3166-1 alpha-2 format (e.g., US, GB, IN)
 - Response includes metadata about the search query and result count
 
