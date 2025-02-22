@@ -15,6 +15,7 @@
         "express-winston": "4.2.0",
         "google-play-scraper": "file:vendor/google-play-scraper",
         "jsonwebtoken": "9.0.2",
+        "string-similarity-js": "2.1.4",
         "winston": "3.17.0"
       },
       "devDependencies": {
@@ -10135,6 +10136,11 @@
       "engines": {
         "node": ">=10"
       }
+    },
+    "node_modules/string-similarity-js": {
+      "version": "2.1.4",
+      "resolved": "https://registry.npmjs.org/string-similarity-js/-/string-similarity-js-2.1.4.tgz",
+      "integrity": "sha512-uApODZNjCHGYROzDSAdCmAHf60L/pMDHnP/yk6TAbvGg7JSPZlSto/ceCI7hZEqzc53/juU2aOJFkM2yUVTMTA=="
     },
     "node_modules/string-width": {
       "version": "4.2.3",
