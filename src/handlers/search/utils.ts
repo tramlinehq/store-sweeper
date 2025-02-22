@@ -22,14 +22,14 @@ export const getLangForAppStore = (country?: string) => {
 };
 
 export const sortAndFilterResults = (
+  searchTerm: string,
   playStoreSearchResults: SearchResult[],
   appStoreSearchResults: SearchResult[],
   num: number
 ) => {
-  const totalResults = [
-    ...playStoreSearchResults,
-    ...appStoreSearchResults,
-  ].sort((a, b) => b.averageRating - a.averageRating);
+  const totalResults = [...playStoreSearchResults, ...appStoreSearchResults]
+    .filter(checkResultForKeywords(searchTerm))
+    .sort((a, b) => b.averageRating - a.averageRating);
 
   return totalResults.slice(0, num);
 };
@@ -74,17 +74,25 @@ export const checkResultForKeywords =
       // data is of length < 2
     );
 
-    const termAppDeveloperSimilarity = stringSimilarity(
-      searchTerm,
-      searchResult.developerName,
-      searchTerm.length >= 2 && searchResult.developerName.length >= 2 ? 2 : 1
-    );
+    const termAppDeveloperSimilarity =
+      "developerName" in searchResult
+        ? stringSimilarity(
+            searchTerm,
+            searchResult.developerName,
+            searchTerm.length >= 2 && searchResult.developerName.length >= 2
+              ? 2
+              : 1
+          )
+        : 0;
 
-    const termAppBundleIdSimilarity = stringSimilarity(
-      searchTerm,
-      searchResult.bundleId,
-      searchTerm.length >= 2 && searchResult.bundleId.length >= 2 ? 2 : 1
-    );
+    const termAppBundleIdSimilarity =
+      "bundleId" in searchResult
+        ? stringSimilarity(
+            searchTerm,
+            searchResult.bundleId,
+            searchTerm.length >= 2 && searchResult.bundleId.length >= 2 ? 2 : 1
+          )
+        : 0;
 
     // NOTE: we want to make sure that either the app name or the app
     // developer name is highly relevant to what the user is searching
