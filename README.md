@@ -13,6 +13,23 @@ A Node.js service that provides a unified API for searching both Apple App Store
 - JWT authentication for API security
 - Health check endpoint
 
+| Endpoint | Method | Query Parameters | Default Values | Description |
+|----------|---------|-----------------|----------------|-------------|
+| `/search` | GET | `searchTerm` (required)<br>`numCount`<br>`lang`<br>`country` | `numCount`: 50<br>`lang`: "en"<br>`country`: "us" | Searches both app stores and returns sorted results by rating |
+| `/healthz` | GET | None | None | Health check endpoint that returns OK status |
+
+Additional notes for `/search`:
+- Responds with both App Store and Play Store results combined
+- Results are sorted by rating in descending order
+- Play Store number limit: 1-250 results
+- For country codes, both stores support the ISO 3166-1 alpha-2 format (e.g., US, GB, IN)
+- Response includes metadata about the search query and result count
+
+> Quick Note:
+There's also `\tsearch` endpoint that is available at the moment that is meant for testing
+but please do not use it in production, in a subsequent version of the store-sweeper, this
+endpoint will be removed.
+
 ## Prerequisites
 
 - Node.js (>= 18)
@@ -48,9 +65,25 @@ NOTE: any changes will also reload your API since we have `nodemon` watching ove
 
 ```json
 {
-  "results": {
-    "app_store": [...],
-    "play_store": [...]
+  "results": [{
+    "id": "number",
+    "name": "string",
+    "bundleId": "string",
+    "developerName": "string",
+    "version": "string",
+    "averageRating": "number",
+    "iconUrl": "string",
+    "description": "string",
+    "country": "string",
+    "appUrl": "string",
+    "store": "app-store" | "play-store",
+  },...],
+  "metadata": {
+    "query": {
+      "app_store": { ... },
+      "play_store": { ... }
+    },
+    "count": "number"
   }
 }
 ```
