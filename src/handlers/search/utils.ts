@@ -7,7 +7,7 @@ import {
   CountryCharCode,
   PlayStoreAppData,
   SearchResult,
-} from "./types.js";
+} from "./types";
 
 export const getCountryCode = (countryStr: string) => {
   const countryStrUpper = countryStr.toUpperCase();

@@ -1,5 +1,5 @@
-import healthzHandler from "./healthz/index.js";
-import notFoundHandler from "./notFound/index.js";
-import searchHandler from "./search/index.js";
+import healthzHandler from "./healthz";
+import notFoundHandler from "./notFound";
+import searchHandler from "./search";
 
 export { healthzHandler, notFoundHandler, searchHandler };
